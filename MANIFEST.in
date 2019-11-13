@@ -1,0 +1,7 @@
+include LICENSE.txt
+recursive-include djangocms_chunks/locale *
+recursive-include djangocms_chunks/migrations *
+recursive-include djangocms_chunks/templates *
+recursive-include djangocms_chunks/templatetags *
+recursive-exclude * *.pyc
+recursive-exclude * .DS_Store
