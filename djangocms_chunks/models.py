@@ -5,12 +5,14 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 from cms.models import CMSPlugin
-from cms.utils.compat.dj import python_2_unicode_compatible
 
 # Create your models here.
 
 
 # Stores the actual data
+from six import python_2_unicode_compatible
+
+
 @python_2_unicode_compatible
 class Chunk(models.Model):
     """
