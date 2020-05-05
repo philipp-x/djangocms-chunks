@@ -60,7 +60,8 @@ class Variable(models.Model):
     """
     chunk = models.ForeignKey(
         Chunk,
-        verbose_name=_('Chunk')
+        verbose_name=_('Chunk'),
+        on_delete=models.PROTECT
     )
     name = models.SlugField(
         verbose_name=_('Name'),
