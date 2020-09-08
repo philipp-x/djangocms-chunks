@@ -5,12 +5,14 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 from cms.models import CMSPlugin
-from cms.utils.compat.dj import python_2_unicode_compatible
 
 # Create your models here.
 
 
 # Stores the actual data
+from six import python_2_unicode_compatible
+
+
 @python_2_unicode_compatible
 class Chunk(models.Model):
     """
@@ -58,7 +60,8 @@ class Variable(models.Model):
     """
     chunk = models.ForeignKey(
         Chunk,
-        verbose_name=_('Chunk')
+        verbose_name=_('Chunk'),
+        on_delete=models.PROTECT
     )
     name = models.SlugField(
         verbose_name=_('Name'),
