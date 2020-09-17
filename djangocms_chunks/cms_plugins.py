@@ -24,27 +24,26 @@ class ChunkPlugin(CMSPluginBase):
     cache = CACHE_ENABLED
 
     def render(self, plugin_context, instance, placeholder):
-        context = plugin_context.flatten()
-        [context.update({variable.name: variable.value}) for variable in instance.chunk.variable_set.all()]
+        plugin_context = plugin_context.flatten()
+        [plugin_context.update({variable.name: variable.value}) for variable in instance.chunk.variable_set.all()]
         try:
             if instance.chunk.template:
                 t = template.loader.get_template(instance.chunk.template)
-                context.update({
-                    'html': mark_safe(instance.chunk.html)
+                plugin_context.update({
+                    'html': mark_safe(instance.chunk.html),
+                    'placeholder': placeholder,
+                    'object': instance,
                 })
-                content = t.render(context)
+                content = t.render(plugin_context)
             else:
                 t = template.Template(instance.chunk.html)
-                content = t.render(Context(context))
+                content = t.render(Context(plugin_context))
         except template.TemplateDoesNotExist:
             content = _('Template %(template)s does not exist.') % {
                 'template': instance.chunk.template}
         except Exception as e:
             content = escape(str(e))
         plugin_context.update({
-            'placeholder': placeholder,
-            'object': instance,
-            'html': mark_safe(instance.chunk.html),
             'content': content,
         })
         return plugin_context
